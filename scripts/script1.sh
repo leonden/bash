@@ -1,9 +1,9 @@
 #!/bin/bash
-# Name:         <script.sh>
-# Aufruf:       <script.sh> [<1. Parameter>] [<2. Parameter>]
+# Name:         <script1.sh>
+# Aufruf:       <script2.sh> [<1. Parameter>] [<2. Parameter>]
 #               [<Beschreibung des 1. Parameters (falls vorhanden)>]
 #               [<Beschreibung des 2. Parameters (falls vorhanden)>]
-# Beschreibung: <practise and exercise>
+# Beschreibung: <if practise and exercise>
 # Autor:        <Leon Hochwimmer>
 # Version:      <0.1>
 # Datum:        <31.05.2022>
@@ -30,4 +30,19 @@ fi
 
 # -------------------------
 
+echo "hello $#"
 
+echo "what is your name?"
+read user
+echo "nice to meet you $user"
+
+# -------------------------
+
+num=9
+
+if [ $# != $num ]
+then
+	echo "there are $num parameters passed"
+else
+	echo " there are not $num parameters passed"
+fi
