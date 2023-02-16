@@ -3,8 +3,14 @@
 if [ $# -eq 2 ]; then
     echo "Provided parameter is valid"
 else
+    echo "Provided parameters not valid"
     exit 1
 fi
 
-echo "The first provided parameter is $1"
-echo "The second provided parameter is $2"
+for i in A B C D; do
+    echo $i
+done
+
+var=$((1 + 1))
+
+echo $var
