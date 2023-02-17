@@ -9,18 +9,69 @@
 
 # If the sum is evenly divisible by 10, then the number is valid
 
-if [ $# -ge 1 ]; then
-    echo "Parameters are not allowed"
+# --------------------------------------------------------------------------------------------------
+reverse() {
+    reversed_num=$(echo "$1" | rev)
+
+    return reversed_num
+}
+
+# Check if the provided arguments
+if [ $# -lt 1 ]; then
+    echo "No credit card number provided"
     exit 1
+elif [ $# -eq 4 ]; then
+    num="$1$2$3$4"
+    echo "$num"
+elif [ $# -eq 1 ]; then
+    dash="-"
+    if [[ $1 == *"$dash"* ]]; then
+        echo "$1" | sed "s/-//g"
+        reverse "$1"
+    else
+        echo "$1" | sed "s/ //g"
+        reverse "$1"
+    fi
 fi
 
-echo "Enter a credit card number to validate:"
-read -r num
+# Reverse the credit card number
 
-echo "$num" | grep -qE '^([0-9]{4}[ ]){3}[0-9]{4}$'
+# Calculate the sum of the digits in the odd positions
+sum_odds() {
+    sum=0
+    for ((i = 0; i < ${#1}; i += 2)); do
+        sum=$((sum + ${1:$i:1}))
+    done
+    echo "$sum"
+}
+odds=$(sum_odds "$ccnumrev")
 
-if [ $? -eq 0 ]; then
-    echo "$1 is a valid credit card number."
-else
-    echo "$1 is an invalid credit card number."
-fi
+# Double the digits in the even positions and sum the digits of the resulting number
+sum_evens() {
+    sum=0
+    for ((i = 1; i < ${#1}; i += 2)); do
+        digit=$((${1:$i:1} * 2))
+        if [ $digit -gt 9 ]; then
+            digit=$((digit - 9))
+        fi
+        sum=$((sum + digit))
+    done
+    echo "$sum"
+}
+evens=$(sum_evens "$ccnumrev")
+
+# Add the sums of the odd and even positions
+add_sums() {
+    echo $(($1 + $2))
+}
+total=$(add_sums "$odds" "$evens")
+
+# Check if the total is divisible by 10
+is_valid() {
+    if [ $(($1 % 10)) -eq 0 ]; then
+        echo "Valid credit card number"
+    else
+        echo "Invalid credit card number"
+    fi
+}
+is_valid "$total"
