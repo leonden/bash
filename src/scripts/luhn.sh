@@ -57,6 +57,8 @@ sum_odds() {
 }
 odds=$(sum_odds "$ccnumrev")
 
+echo "sum of odd digits: $odds"
+
 # Double the digits in the even positions and sum the digits of the resulting number
 sum_evens() {
     sum=0
@@ -71,7 +73,9 @@ sum_evens() {
 }
 evens=$(sum_evens "$ccnumrev")
 
-echo "The result is" $((odds + evens))
+echo "sum of even digits: $evens"
+
+echo "The sum of all digits" $((odds + evens))
 
 # Add the sums of the odd and even positions
 add_sums() {
@@ -83,8 +87,10 @@ total=$(add_sums "$odds" "$evens")
 # Check if the total is divisible by 10
 is_valid() {
     if [ $(($1 % 10)) -eq 0 ]; then
+        echo "The result $1 is evenly divisible by 10"
         echo "Valid credit card number"
     else
+        echo "The result $1 is not evenly divisible by 10"
         echo "Invalid credit card number"
     fi
 }
