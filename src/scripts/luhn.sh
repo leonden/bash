@@ -10,31 +10,42 @@
 # If the sum is evenly divisible by 10, then the number is valid
 
 # --------------------------------------------------------------------------------------------------
-reverse() {
-    reversed_num=$(echo "$1" | rev)
 
-    return reversed_num
-}
+# # Check if the provided arguments
+# if [ $# -lt 1 ]; then
+#     echo "No credit card number provided"
+#     exit 1
+# elif [ $# -eq 4 ]; then
+#     num="$1$2$3$4"
+#     echo "$num"
+# elif [ $# -eq 1 ]; then
+#     dash="-"
+#     if [[ $1 == *"$dash"* ]]; then
+#         echo "$1" | sed "s/-//g"
+#         reverse "$1"
+#     else
+#         echo "$1" | sed "s/ //g"
+#         reverse "$1"
+#     fi
+# fi
 
-# Check if the provided arguments
-if [ $# -lt 1 ]; then
+# Check if an argument is provided
+if [ -z "$1" ]; then
     echo "No credit card number provided"
     exit 1
-elif [ $# -eq 4 ]; then
-    num="$1$2$3$4"
-    echo "$num"
-elif [ $# -eq 1 ]; then
-    dash="-"
-    if [[ $1 == *"$dash"* ]]; then
-        echo "$1" | sed "s/-//g"
-        reverse "$1"
-    else
-        echo "$1" | sed "s/ //g"
-        reverse "$1"
-    fi
 fi
 
+# Remove all non-numeric characters from the input
+remove_non_digits() {
+    echo "$1" | tr -d -c [:digit:]
+}
+ccnum=$(remove_non_digits "$1")
+
 # Reverse the credit card number
+reverse_string() {
+    echo "$1" | rev
+}
+ccnumrev=$(reverse_string "$ccnum")
 
 # Calculate the sum of the digits in the odd positions
 sum_odds() {
