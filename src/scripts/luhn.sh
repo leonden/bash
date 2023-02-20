@@ -71,10 +71,13 @@ sum_evens() {
 }
 evens=$(sum_evens "$ccnumrev")
 
+echo "The result is" $((odds + evens))
+
 # Add the sums of the odd and even positions
 add_sums() {
     echo $(($1 + $2))
 }
+
 total=$(add_sums "$odds" "$evens")
 
 # Check if the total is divisible by 10
